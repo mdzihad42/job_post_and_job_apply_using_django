@@ -1,0 +1,23 @@
+<div class="navbar">
+  <div class="nav-left">
+    <div class="nav-logo"><a href="{% url 'homePage' %}">Job Express</a></div>
+    <a href="{% url 'homePage' %}">Home</a>
+    {% if request.user.user_type == 'Employee' %}
+    <a href="{% url 'jobAddPage' %}">Add Job</a>
+    {% endif %}
+    <a href="{% url 'jobPostPage' %}">Post Job</a>
+    <a href="{% url 'applyJob' %}">Apply Job</a>
+  </div>
+
+  <div class="nav-right">
+    {% if request.user.user_type %}
+    <span>{{ request.user.username }} - {{ request.user.user_type }}</span>
+      <a href="{% url 'changePassword' %}" class="login-btn">Change Password</a>
+      <a href="{% url 'logoutPage' %}" class="login-btn">Logout</a>
+      
+    {% else %}
+      <a href="{% url 'loginPage' %}" class="login-btn">Log in</a>
+      <a href="{% url 'registerPage' %}" class="signup-btn">Sign up</a>
+    {% endif %}
+  </div>
+</div>

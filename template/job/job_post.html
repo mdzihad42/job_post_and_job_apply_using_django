@@ -1,0 +1,184 @@
+{% extends 'master/base.html' %}
+
+{% block body %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+/* Container */
+.job-table-container {
+    background: #fff;
+    width: 95%;
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 30px;
+    border-radius: 15px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    font-family: "Poppins", sans-serif;
+}
+
+/* Heading */
+.job-table-container h2 {
+    text-align: center;
+    margin-bottom: 25px;
+    color: #2c3e50;
+}
+
+/* Search Form */
+.search-form {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+}
+
+.search-form input[type="text"] {
+    width: 60%;
+    padding: 10px 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px 0 0 8px;
+    font-size: 14px;
+    outline: none;
+}
+
+.search-form button {
+    padding: 10px 20px;
+    border: none;
+    background-color: #2980b9;
+    color: white;
+    font-size: 14px;
+    border-radius: 0 8px 8px 0;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+.search-form button:hover {
+    background-color: #1f6391;
+}
+
+/* Table */
+.job-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.job-table th,
+.job-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+    font-size: 14px;
+}
+
+.job-table th {
+    background-color: #2980b9;
+    color: white;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.job-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.job-table tr:hover {
+    background-color: #ecf5ff;
+}
+
+/* Action Buttons */
+.action-td a {
+    display: inline-block;
+    padding: 6px 12px;
+    margin-right: 5px;
+    border-radius: 5px;
+    text-decoration: none;
+    font-size: 13px;
+    color: #fff;
+    transition: 0.3s;
+}
+
+.edit-btn {
+    background-color: #27ae60;
+}
+
+.edit-btn:hover {
+    background-color: #1f874b;
+}
+
+.delete-btn {
+    background-color: #c0392b;
+}
+
+.delete-btn:hover {
+    background-color: #962d24;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+    .job-table-container {
+        padding: 20px;
+    }
+    .search-form input[type="text"] {
+        width: 70%;
+    }
+    .job-table th, .job-table td {
+        font-size: 12px;
+        padding: 8px 10px;
+    }
+}
+</style>
+</head>
+<body>
+<div class="job-table-container">
+    <h2>📋 All Job Posts</h2>
+{% if request.user.user_type == 'Job_Seeker' %}
+    <form class="search-form" method="GET" action="{% url 'jobPostPage' %}">
+        <input type="text" name="query" placeholder="Search by keyword, location, or skills" value="{{ request.GET.query }}">
+        <button type="submit">Search</button>
+    </form>
+{% endif %}
+    <table class="job-table">
+        <thead>
+            <tr>
+                <th>Job Title</th>
+                <th>Company</th>
+                <th>Location</th>
+                <th>Description</th>
+                <th>Skills Required</th>
+                <th>Salary</th>
+                <th>Deadline</th>
+                {% if request.user.user_type == 'Employee' %}
+                <th>Action</th>
+                {% endif %}
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in job_data %}
+            <tr>
+                <td>{{ i.job_title }}</td>
+                <td>{{ i.company_name }}</td>
+                <td>{{ i.location }}</td>
+                <td>{{ i.description }}</td>
+                <td>{{ i.skills_required }}</td>
+                <td>{{ i.salary }}</td>
+                <td>{{ i.application_deadline }}</td>
+                {% if request.user.user_type == 'Employee' %}
+                <td class="action-td">
+                    <a class="edit-btn" href="{% url 'jobEdit' i.id %}">Edit</a>
+                    <a class="delete-btn" href="{% url 'jobDlt' i.id %}">Delete</a>
+                </td>
+                {% endif %}
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+
+<br><br><br><br><br><br><br><br>
+</body>
+</html>
+{% endblock body %}
+    

@@ -1,0 +1,95 @@
+{% extends 'master/base.html' %}
+
+{% block body %}
+<!DOCTYPE html>
+<html>
+<style>
+
+  form {
+    background-color: #fff;
+    margin: auto;
+    padding: 40px 30px;
+    border-radius: 12px;
+    box-shadow: 0px 8px 25px rgba(0, 0, 0, 0.15);
+    width: 100%;
+    max-width: 400px;
+    box-sizing: border-box;
+    animation: fadeIn 0.8s ease-in-out;
+  }
+
+  h2 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 25px;
+    letter-spacing: 1px;
+  }
+
+  label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+    font-weight: 500;
+  }
+
+  input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 18px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    box-sizing: border-box;
+    transition: all 0.3s ease;
+  }
+
+  input:focus {
+    border-color: #5563DE;
+    box-shadow: 0 0 5px rgba(85, 99, 222, 0.5);
+    outline: none;
+  }
+
+  input[type=submit] {
+    background-color: #5563DE;
+    color: white;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+  }
+
+  input[type=submit]:hover {
+    background-color: #3f4fcf;
+  }
+</style>
+<body>
+
+<h2>register</h2>
+
+<form action="" method="POST">
+    {% csrf_token %}
+
+  <label for="lname">username</label>
+  <input type="text" id="lname" name="username" placeholder="Your last name..">
+
+  <label for="lname">email</label>
+  <input type="email" id="lname" name="email" placeholder="Your last name..">
+
+  <label for="lname">password</label>
+  <input type="password" id="lname" name="password" placeholder="Your last name..">
+  <label for="lname">confirm_password</label>
+  <input type="password" id="lname" name="confirm_password" placeholder="Your last name..">
+
+  <label for="country">user_type</label>
+  <select id="country" name="user_type">
+    <option value="Employee">Employee</option>
+    <option value="Job_Seeker">Job_Seeker</option>
+  </select>
+  
+  <input type="submit" value="register">
+</form>
+
+</body>
+</html>
+
+
+
+{% endblock body %}
+    

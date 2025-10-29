@@ -1,0 +1,92 @@
+{% extends 'master/base.html' %}
+
+{% block body %}
+
+<style>
+.job-table {
+  width: 90%;
+  margin: 40px auto;
+  border-collapse: collapse;
+  font-family: "Poppins", sans-serif;
+  background: #fff;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.job-table th, .job-table td {
+  padding: 12px 16px;
+  text-align: left;
+  border-bottom: 1px solid #ddd;
+}
+
+.job-table th {
+  background-color: #2980b9;
+  color: white;
+  font-weight: bold;
+}
+
+.job-table tr:hover {
+  background-color: #f5f5f5;
+}
+
+.apply-btn {
+  display: inline-block;
+  background-color: #2980b9;
+  color: white;
+  text-decoration: none;
+  padding: 6px 12px;
+  border-radius: 5px;
+  font-size: 14px;
+  transition: background 0.3s ease;
+}
+
+.apply-btn:hover {
+  background-color: #1c5d85;
+}
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+</style>
+
+<table class="job-table">
+  <thead>
+    <tr>
+      <th>cv</th>
+      <th>Created By</th>
+      <th>publishdate</th>
+      <th>job_stataus</th>
+      {% if request.user.user_type == 'Job_Seeker' %}
+      <th>Action</th>
+      {% endif %}
+      {% if request.user.user_type == 'Employee' %}
+      <th>Status / Action</th>
+      {% endif %}
+    </tr>
+  </thead>
+  <tbody>
+      {% for a in apply_data %}
+      <tr>
+        <td>{{a.cv}}</td>
+        <td>{{ a.created_by }}</td>
+        <td>{{ a.publishdate }}</td>
+        <td>{{ a.job_stataus }}</td>
+        <td>
+          {% if request.user.user_type == 'Employee' %}
+            <div class="action-buttons">
+              <a href="{% url 'Shortlisted' a.id %}" class="apply-btn">Shortlisted</a>
+              <a href="{% url 'Rejected' a.id %}" class="apply-btn">Rejected</a>
+            </div>
+            {% endif %}
+          {% if request.user.user_type == 'Job_Seeker' %}
+            <a href="{% url 'applyJobDlt' a.id %}" class="apply-btn">Delete</a>
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+  </tbody>
+</table>
+
+{% endblock body %}
