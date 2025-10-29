@@ -75,9 +75,9 @@ def jobPostPage(request):
 
     if query:
         jobs = employeeModel.objects.filter(job_title__icontains=query)
-        if not jobs:
+        if not jobs.exists():
             jobs = employeeModel.objects.filter(location__icontains=query)
-        elif not jobs:
+        if not jobs.exists():
             jobs = employeeModel.objects.filter(skills_required__icontains=query)
     else:
         jobs = employeeModel.objects.all()
@@ -154,3 +154,4 @@ def homePage(request):
     job_data=employeeModel.objects.all()
 
     return render(request,'master/base.html',{'job_data':job_data})
+
