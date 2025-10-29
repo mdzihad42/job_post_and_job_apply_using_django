@@ -72,14 +72,13 @@ def jobAddPage(request):
 @login_required
 def jobPostPage(request):
     query = request.GET.get('query', '')
+
     if query:
-        jobs = employeeModel.objects.filter(
-            job_title__icontains=query
-        ) | employeeModel.objects.filter(
-            location__icontains=query
-        ) | employeeModel.objects.filter(
-            skills_required__icontains=query
-        )
+        jobs = employeeModel.objects.filter(job_title__icontains=query)
+        if not jobs:
+            jobs = employeeModel.objects.filter(location__icontains=query)
+        elif not jobs:
+            jobs = employeeModel.objects.filter(skills_required__icontains=query)
     else:
         jobs = employeeModel.objects.all()
 
@@ -153,4 +152,5 @@ def jobDlt(request,id):
 
 def homePage(request):
     job_data=employeeModel.objects.all()
+
     return render(request,'master/base.html',{'job_data':job_data})
